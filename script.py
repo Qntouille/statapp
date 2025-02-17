@@ -1,5 +1,8 @@
 import s3fs
 import pandas as pd
+import geopandas as gpd
+import json
+
 
 """ IMPORT BASES DE DONNEES """
 
@@ -7,25 +10,30 @@ import pandas as pd
 fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"})
 MY_BUCKET = "williamolivier"
 
-# Récupération des tableaux
+# Récupération de la table Dossier Complet Insee
 FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/df_dossier_complet_brut.csv"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
     df_dossier_complet_brut = pd.read_csv(file)
 
-# Récupération des tableaux
+# Récupération de la table Métadonnées Dossier Complet Insee
 FILE_PATH_S3_MDCB = f"{MY_BUCKET}/diffusion/df_meta_dossier_complet_brut.csv"
 with fs.open(FILE_PATH_S3_MDCB, "rb") as file:
     df_meta_dossier_complet_brut = pd.read_csv(file)
 
-# Récupération des tableaux
+# Récupération de la table Métadonnées MOBPRO
 FILE_PATH_S3_MMB = f"{MY_BUCKET}/diffusion/df_meta_mobpro_brut.csv"
 with fs.open(FILE_PATH_S3_MMB, "rb") as file:
     df_meta_mobpro_brut = pd.read_csv(file)
 
-# Récupération des tableaux
+# Récupération de la table MOBPRO
 FILE_PATH_S3_MB = f"{MY_BUCKET}/diffusion/df_mobpro_brut.csv"
 with fs.open(FILE_PATH_S3_MB, "rb") as file:
     df_mobpro_brut = pd.read_csv(file)
+
+# Récupération de la table Contours des communes
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/a-com2022-topo-2154.json"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    comm = gpd.read_file(file)
 
 
 """ DEFINITIONS D'OBJETS """
