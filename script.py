@@ -33,7 +33,7 @@ with fs.open(FILE_PATH_S3_MB, "rb") as file:
 # Récupération de la table Contours des communes
 FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/a-com2022-topo-2154.json"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    comm = gpd.read_file(file)
+    contours_comm = gpd.read_file(file)
 
 
 """ DEFINITIONS D'OBJETS """
