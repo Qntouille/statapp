@@ -43,15 +43,24 @@ arr_paris = [f"751{str(i).zfill(2)}" for i in range(1, 21)]
 arr_marseille = [f"132{str(i).zfill(2)}" for i in range(1, 17)]
 arr_lyon = [f"6938{str(i).zfill(1)}" for i in range(1, 10)]
 
-# Dictionnaire des types de transports
+# Dictionnaires
 transport_dict = {
     1: "Pas de transport",
-    2: "Marche à pied (ou rollers, patinette)",
-    3: "Vélo (y compris à assistance électrique)",
+    2: "Marche à pied ou rollers",
+    3: "Vélo (y compris électrique)",
     4: "Deux-roues motorisé",
     5: "Voiture, camion, fourgonnette",
-    6: "Transports en commun"
-}
+    6: "Transports en commun"}
+
+cs_labels = {
+    1: "Agriculteurs",
+    2: "Artisans, commerçants, chef de société",
+    3: "Cadres et professions intel.",
+    4: "Professions intermédiaires",
+    5: "Employés",
+    6: "Ouvriers",
+    7: "Retraités",
+    8: "Autres inactifs"}
 
 """ BASE DE DONNEE MOBPRO """
 
@@ -68,3 +77,15 @@ df_mobpro_brut['INEEM'] = pd.to_numeric(df_mobpro_brut['INEEM'], errors='coerce'
 
 # COMMUNE mise à l'échelle de l'arrondissement
 df_mobpro_brut.loc[df_mobpro_brut['COMMUNE'].isin(['75056', '13055', '69123']), 'COMMUNE'] = df_mobpro_brut['ARM']
+
+# Labels
+df_mobpro_brut['TRANS_LABEL'] = df_mobpro_brut['TRANS'].map(transport_dict)
+df_mobpro_brut['CS_LABEL'] = df_mobpro_brut['CS1'].map(cs_labels)
+
+
+
+
+""" BASE DE DONNEE CONTOURS COMMUNES """
+
+# Centroïd des communes
+contours_comm["centroid"] = contours_comm.geometry.centroid
