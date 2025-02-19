@@ -30,8 +30,8 @@ FILE_PATH_S3_MB = f"{MY_BUCKET}/diffusion/df_mobpro_brut.csv"
 with fs.open(FILE_PATH_S3_MB, "rb") as file:
     df_mobpro_brut = pd.read_csv(file)
 
-# Récupération de la table Contours des communes
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/a-com2022-topo-2154.json"
+# Récupération de la table Dossier Complet Insee
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
     contours_comm = gpd.read_file(file)
 
@@ -89,3 +89,12 @@ df_mobpro_brut['CS_LABEL'] = df_mobpro_brut['CS1'].map(cs_labels)
 
 # Centroïd des communes
 contours_comm["centroid"] = contours_comm.geometry.centroid
+
+
+
+
+""" FONCTIONS D'AFFICHAGE """
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
