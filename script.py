@@ -93,7 +93,19 @@ df_mobpro_brut['CS_LABEL'] = df_mobpro_brut['CS1'].map(cs_labels)
 # Centroïd des communes
 contours_comm["centroid"] = contours_comm.geometry.centroid
 
+# Conversion en projection WGS84 pour avoir les coordonnées en lat/lon
+if contours_comm.crs != "EPSG:4326":
+    contours_comm = contours_comm.to_crs(epsg=4326)
 
+# Créer un dictionnaire des villes avec leurs coordonnées (latitude, longitude)
+coord_villes = dict(zip(
+    contours_comm['NOM'].str.lower(),           # Nom des communes en minuscules
+    zip(contours_comm.centroid.y, contours_comm.centroid.x)  # Latitude, Longitude
+))
+
+# Exemple d'affichage pour les 10 premières villes
+for ville, coords in list(coord_villes.items())[:10]:
+    print(f"{ville}: {coords}")
 
 
 """ FONCTIONS D'AFFICHAGE """
@@ -165,5 +177,85 @@ def plot_flux_gradient(gdf, couleur, titre, flux_col):
     ax.set_axis_off()
     
     # Ajuster les marges si nécessaire
+    plt.subplots_adjust(top=0.95, right=0.85)
+    plt.show()
+
+
+def plot_flux_gradient_zoom(gdf, couleur, titre, flux_col, ville):
+    """
+    Affiche une carte avec un gradient de couleur selon le nombre de flux,
+    zoomée sur une ville spécifiée, avec la ville entourée et son nom affiché.
+
+    Paramètres :
+      - gdf: GeoDataFrame des flux.
+      - couleur: Couleur pour la palette ('vert', 'jaune', 'rouge').
+      - titre: Titre de la carte.
+      - flux_col: Colonne contenant le nombre de flux.
+      - ville: Nom de la ville pour le zoom.
+      - coord_villes: Dictionnaire {ville: (latitude, longitude)}.
+      - gdf_villes: GeoDataFrame des communes pour entourer la ville.
+    """
+
+    # Vérification si la ville existe
+    ville = ville.lower()
+    if ville not in coord_villes:
+        print(f"⚠️ Erreur : la ville '{ville}' n'est pas trouvée.")
+        print(f"Exemples de villes disponibles : {list(coord_villes.keys())[:10]}...")
+        return
+
+    # Obtenir les coordonnées de la ville
+    lat, lon = coord_villes[ville]
+
+    # Filtrer pour la France métropolitaine
+    if 'INSEE_DEP' in gdf.columns:
+        gdf['INSEE_DEP'] = pd.to_numeric(gdf['INSEE_DEP'], errors='coerce')
+        gdf = gdf[gdf['INSEE_DEP'] < 96]
+
+    # Conversion en projection WGS84
+    if gdf.crs != "EPSG:4326":
+        gdf = gdf.to_crs(epsg=4326)
+
+    # Palette de couleurs
+    cmap = {"vert": "Greens", "jaune": "Oranges", "rouge": "Reds"}.get(couleur.lower(), "Greens")
+
+    # Ajouter une colonne log pour les flux
+    gdf['flux_log'] = gdf[flux_col] + 1
+
+    # Échelle logarithmique
+    norm = colors.LogNorm(vmin=gdf['flux_log'].min(), vmax=gdf['flux_log'].max())
+
+    # Zoom : 0.35° autour de la ville
+    delta = 0.35
+    xmin, xmax = lon - delta, lon + delta
+    ymin, ymax = lat - delta, lat + delta
+
+    # Identifier la ville cible pour le contour
+    ville_cible = gdf[gdf['NOM'].str.lower() == ville]
+
+    # Tracer la carte
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    gdf.plot(column='flux_log',
+             cmap=cmap,
+             norm=norm,
+             linewidth=0,
+             ax=ax,
+             edgecolor='0.8',
+             legend=True,
+             legend_kwds={'label': "Flux (log)", 'shrink': 0.5, 'pad': 0.02, 'aspect': 30})
+
+    # Dessiner la ville ciblée en contour épais
+    if not ville_cible.empty:
+        ville_cible.boundary.plot(ax=ax, color='blue', linewidth=2)
+        centroid = ville_cible.centroid.iloc[0]
+        ax.text(centroid.x, centroid.y, ville.capitalize(), fontsize=10, color='blue', ha='center')
+
+    # Zoom sur la ville
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
+
+    # Personnalisation
+    ax.set_title(f"{titre} - Zoom sur {ville.capitalize()}", fontsize=14, pad=20)
+    ax.set_axis_off()
+
     plt.subplots_adjust(top=0.95, right=0.85)
     plt.show()
