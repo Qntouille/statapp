@@ -4,6 +4,9 @@ import geopandas as gpd
 import json
 
 
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+
 """ IMPORT BASES DE DONNEES """
 
 # Information d'accès au cloud MinIO (Bucket de William)
@@ -94,7 +97,73 @@ contours_comm["centroid"] = contours_comm.geometry.centroid
 
 
 """ FONCTIONS D'AFFICHAGE """
-import pandas as pd
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import matplotlib.colors as colors
+
+def flux(ville_a,ville_b, df_flux = flux_tot):
+    '''
+    Prend en argument deux codes insee en chaîne de caractère et
+    renvoie le nombre de commute (selon le type de flux) entre ces deux villes.
+    '''
+    flux = df_flux.loc[ville_a, ville_b]
+    print(f"Nombre de personnes se déplaçant de {ville_a} vers {ville_b} : {flux}")
+
+def plot_flux_gradient(gdf, couleur, titre, flux_col):
+    """
+    Affiche une carte avec un gradient de couleur selon le nombre de flux,
+    en ne gardant que les communes de la France métropolitaine (DOM-TOM exclus).
+
+    Paramètres :
+      - gdf: GeoDataFrame contenant au moins :
+           * la colonne de flux (ex: 'flux_depart' ou 'flux_destination'),
+           * la colonne 'geometry',
+           * et éventuellement 'INSEE_DEP' (code du département).
+      - couleur: chaîne ("vert", "jaune" ou "rouge") pour choisir la palette.
+      - titre: titre de la carte.
+      - flux_col: nom de la colonne contenant le nombre de flux.
+      
+    La fonction ajoute 1 aux flux pour éviter le log(0) et utilise une normalisation logarithmique.
+    """
+    # Filtrer pour la France métropolitaine si 'INSEE_DEP' est présente
+    if 'INSEE_DEP' in gdf.columns:
+        # S'assurer que la colonne est numérique
+        gdf['INSEE_DEP'] = pd.to_numeric(gdf['INSEE_DEP'], errors='coerce')
+        gdf = gdf[gdf['INSEE_DEP'] < 96]
+    
+    # Dictionnaire de correspondance entre couleur en français et cmap Matplotlib
+    colormap_dict = {
+        "vert": "Greens",
+        "jaune": "Oranges",
+        "rouge": "Reds"
+    }
+    cmap = colormap_dict.get(couleur.lower(), "Greens")
+    
+    # Travailler sur une copie pour ne pas modifier l'objet original
+    gdf = gdf.copy()
+    gdf['flux_log'] = gdf[flux_col] + 1  # Ajouter 1 pour éviter log(0)
+    
+    # Définir la normalisation logarithmique
+    norm = colors.LogNorm(vmin=gdf['flux_log'].min(), vmax=gdf['flux_log'].max())
+    
+    # Tracer la carte avec légende ajustée
+    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+    gdf.plot(column='flux_log',
+             cmap=cmap,
+             norm=norm,
+             linewidth=0,
+             ax=ax,
+             edgecolor='0.8',
+             legend=True,
+             legend_kwds={
+                 'label': "Flux (log)", 
+                 'orientation': "vertical", 
+                 'shrink': 0.5,         # Réduit la taille de la barre de couleur à 50%
+                 'pad': 0.02,
+                 'aspect': 30           # Ajuste la largeur de la légende
+             })
+    
+    # Placer le titre plus en haut avec un pad supérieur
+    ax.set_title(titre, fontsize=14, pad=20)
+    ax.set_axis_off()
+    
+    # Ajuster les marges si nécessaire
+    plt.subplots_adjust(top=0.95, right=0.85)
+    plt.show()
