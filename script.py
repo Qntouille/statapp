@@ -98,7 +98,7 @@ contours_comm["centroid"] = contours_comm.geometry.centroid
 
 """ FONCTIONS D'AFFICHAGE """
 
-def flux(ville_a,ville_b, df_flux = flux_tot):
+def flux(ville_a,ville_b, df_flux):
     '''
     Prend en argument deux codes insee en chaîne de caractère et
     renvoie le nombre de commute (selon le type de flux) entre ces deux villes.
