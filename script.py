@@ -71,7 +71,7 @@ cs_labels = {
     7: "Retraités",
     8: "Autres inactifs"}
 
-""" BASE DE DONNEE MOBPRO """
+""" BASE DE DONNEES MOBPRO """
 
 # Homogénéisation des codes insee (tous en chaîne de caractère)
 df_mobpro_brut["COMMUNE"] = df_mobpro_brut["COMMUNE"].astype(str).str.zfill(5)
@@ -92,6 +92,8 @@ df_mobpro_brut['TRANS_LABEL'] = df_mobpro_brut['TRANS'].map(transport_dict)
 df_mobpro_brut['CS_LABEL'] = df_mobpro_brut['CS1'].map(cs_labels)
 
 
+""" BASE DE DONNEES DOSSIER COMPLET """
+df_dossier_complet_brut["CODGEO"] = df_dossier_complet_brut["CODGEO"].astype(str).str.zfill(5)
 
 
 """ BASE DE DONNEE CONTOURS COMMUNES """
