@@ -38,6 +38,42 @@ FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
     contours_comm = gpd.read_file(file)
 
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
+FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
+with fs.open(FILE_PATH_S3_DCB, "rb") as file:
+    contours_comm = gpd.read_file(file)
+
 #Récupération de la table Mairies (Bucket de Flore)
 MY_BUCKET = "floreamice"
 FILE_PATH_S3_Mairies = f"{MY_BUCKET}/diffusion/annuaire-de-ladministration-base-de-donnees-locales.csv"
