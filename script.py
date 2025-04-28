@@ -38,41 +38,33 @@ FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
     contours_comm = gpd.read_file(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FRDEP = f"{MY_BUCKET}/diffusion/df_flux_rouge_depart_m.csv"
+with fs.open(FILE_PATH_S3_FRDEP, "rb") as file:
+    df_flux_rouge_depart_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FJDEP = f"{MY_BUCKET}/diffusion/df_flux_jaune_depart_m.csv"
+with fs.open(FILE_PATH_S3_FJDEP, "rb") as file:
+    df_flux_jaune_depart_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FVDEP = f"{MY_BUCKET}/diffusion/df_flux_vert_depart_m.csv"
+with fs.open(FILE_PATH_S3_FVDEP, "rb") as file:
+    df_flux_vert_depart_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FRDES = f"{MY_BUCKET}/diffusion/df_flux_rouge_destination_m.csv"
+with fs.open(FILE_PATH_S3_FRDES, "rb") as file:
+    df_flux_rouge_destination_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FJDES = f"{MY_BUCKET}/diffusion/df_flux_jaune_destination_m.csv"
+with fs.open(FILE_PATH_S3_FJDES, "rb") as file:
+    df_flux_jaune_destination_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_FVDES = f"{MY_BUCKET}/diffusion/df_flux_vert_destination_m.csv"
+with fs.open(FILE_PATH_S3_FVDES, "rb") as file:
+    df_flux_vert_destination_m = pd.read_csv(file)
 
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
-
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
-
-FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
-with fs.open(FILE_PATH_S3_DCB, "rb") as file:
-    contours_comm = gpd.read_file(file)
+FILE_PATH_S3_DEC = f"{MY_BUCKET}/diffusion/df_epci_contours.csv"
+with fs.open(FILE_PATH_S3_DEC, "rb") as file:
+    df_epci_contours = pd.read_csv(file)
 
 #Récupération de la table Mairies (Bucket de Flore)
 MY_BUCKET = "floreamice"
