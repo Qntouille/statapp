@@ -63,6 +63,8 @@ FILE_PATH_S3_FVDES = f"{MY_BUCKET}/diffusion/df_flux_vert_destination_m.csv"
 with fs.open(FILE_PATH_S3_FVDES, "rb") as file:
     df_flux_vert_destination_m = pd.read_csv(file)
 
+"""
+
 FILE_PATH_S3_DEC = f"{MY_BUCKET}/diffusion/df_epci_contours.csv"
 with fs.open(FILE_PATH_S3_DEC, "rb") as file:
     df_epci_contours = pd.read_csv(file)
@@ -72,7 +74,7 @@ MY_BUCKET = "floreamice"
 FILE_PATH_S3_Mairies = f"{MY_BUCKET}/diffusion/annuaire-de-ladministration-base-de-donnees-locales.csv"
 with fs.open(FILE_PATH_S3_Mairies, "rb") as file:
     mairies = pd.read_csv(file,sep=";")
-"""
+
 
 #Récupération de la table finale des epci (Bucket de Flore)
 fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"})
