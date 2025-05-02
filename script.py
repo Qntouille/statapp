@@ -38,6 +38,7 @@ FILE_PATH_S3_DCB = f"{MY_BUCKET}/diffusion/commune-frmetdrom.geojson"
 with fs.open(FILE_PATH_S3_DCB, "rb") as file:
     contours_comm = gpd.read_file(file)
 
+"""
 FILE_PATH_S3_FRDEP = f"{MY_BUCKET}/diffusion/df_flux_rouge_depart_m.csv"
 with fs.open(FILE_PATH_S3_FRDEP, "rb") as file:
     df_flux_rouge_depart_m = pd.read_csv(file)
@@ -71,6 +72,15 @@ MY_BUCKET = "floreamice"
 FILE_PATH_S3_Mairies = f"{MY_BUCKET}/diffusion/annuaire-de-ladministration-base-de-donnees-locales.csv"
 with fs.open(FILE_PATH_S3_Mairies, "rb") as file:
     mairies = pd.read_csv(file,sep=";")
+"""
+
+#Récupération de la table finale des epci (Bucket de Flore)
+fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"})
+MY_BUCKET = "williamolivier"
+FILE_PATH_S3_EPCI = f"{MY_BUCKET}/diffusion/epci_features.csv"
+with fs.open(FILE_PATH_S3_EPCI, "rb") as file:
+    epci_features = pd.read_csv(file) 
+
 
 
 """ DEFINITIONS D'OBJETS """
